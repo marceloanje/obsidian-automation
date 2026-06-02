@@ -1,0 +1,13 @@
+name = "telegram-obsidian-bot"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+GITHUB_VAULT_PATH = "Notas Rápidas"
+
+# Secrets — configure via: wrangler secret put <NAME>
+# TELEGRAM_BOT_TOKEN
+# TELEGRAM_SECRET
+# GITHUB_TOKEN
+# GITHUB_OWNER
+# GITHUB_REPO
