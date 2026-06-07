@@ -73,7 +73,7 @@ function buildSlug(text) {
 }
 
 function buildMarkdown(text) {
-  return `---\nTipo: Nota rápida\n---\n\n${text}\n`;
+  return `---\nTipo: [[Notas Rápidas]]\n---\n\n${text}\n`;
 }
 
 async function createGithubFile(env, filename, content, suffixed = false) {
