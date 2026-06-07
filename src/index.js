@@ -32,12 +32,15 @@ export default {
     const filename = `${date}-${slug}.md`;
     const content = buildMarkdown(text);
 
-    const result = await createGithubFile(env, filename, content);
+    const { response, filename: actualFilename } = await createGithubFile(env, filename, content);
 
-    if (!result.ok) {
-      const errMsg = `Erro ao salvar nota no GitHub: ${result.status} ${result.statusText}`;
-      console.error(errMsg, await result.text());
+    if (!response.ok) {
+      const errMsg = `Erro ao salvar nota no GitHub: ${response.status} ${response.statusText}`;
+      console.error(errMsg, await response.text());
       await sendTelegramMessage(env.TELEGRAM_BOT_TOKEN, chatId, `❌ ${errMsg}`);
+    } else {
+      const successMsg = `✅ Nota ${actualFilename} criada com sucesso!\n\n${content}`;
+      await sendTelegramMessage(env.TELEGRAM_BOT_TOKEN, chatId, successMsg);
     }
 
     return new Response('OK', { status: 200 });
@@ -101,7 +104,7 @@ async function createGithubFile(env, filename, content, suffixed = false) {
     return createGithubFile(env, newFilename, content, true);
   }
 
-  return response;
+  return { response, filename };
 }
 
 async function sendTelegramMessage(token, chatId, text) {
